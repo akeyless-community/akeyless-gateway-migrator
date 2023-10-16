@@ -35,11 +35,11 @@ type KubeAuthConfigs struct {
 }
 
 var (
-	akeylessSourceToken      string
-	akeylessDestinationToken string
-	sourceGatewayConfigURL         string
-	destinationGatewayConfigURL    string
-	filterConfigFilePath     string
+	akeylessSourceToken         string
+	akeylessDestinationToken    string
+	sourceGatewayConfigURL      string
+	destinationGatewayConfigURL string
+	filterConfigFilePath        string
 )
 
 var timeout = 30000 * time.Millisecond
@@ -74,13 +74,21 @@ var kubernetesCmd = &cobra.Command{
 }
 
 func run(akeylessSourceToken string, akeylessDestinationToken string, sourceGatewayConfigURL string, destinationGatewayConfigURL string, filterConfigFilePath string) {
+	// output all the argument values
+	fmt.Println("akeylessSourceToken:", akeylessSourceToken)
+	fmt.Println("sourceGatewayConfigURL:", sourceGatewayConfigURL)
+	fmt.Println("akeylessDestinationToken:", akeylessDestinationToken)
+	fmt.Println("destinationGatewayConfigURL:", destinationGatewayConfigURL)
+	fmt.Println("filterConfigFilePath:", filterConfigFilePath)
+
 	k8sAuthConfigs := lookupK8sAuthConfigs(akeylessSourceToken, sourceGatewayConfigURL)
+
 	fmt.Println("Found", len(k8sAuthConfigs.K8SAuths), "k8s auth configs")
-	
+
 }
 
 func lookupK8sAuthConfigs(sourceToken string, sourceGatewayConfigURL string) KubeAuthConfigs {
-	url := sourceGatewayConfigURL + "/configs/k8s-auths"
+	url := sourceGatewayConfigURL + "/config/k8s-auths"
 
 	var k8sAuthConfigs KubeAuthConfigs
 
