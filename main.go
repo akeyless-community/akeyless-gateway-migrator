@@ -26,22 +26,29 @@ var kubernetesCmd = &cobra.Command{
 	Short: "Migrate kubernetes auth configs from a source Akeyless gateway cluster to a destination Akeyless gateway cluster",
 	Run: func(cmd *cobra.Command, args []string) {
 		if akeylessSourceToken == "" {
-			akeylessSourceToken = os.Getenv("AKEYLESS_SOURCE_TOKEN")
+			akeylessSourceToken = getEnvVar("AKEYLESS_SOURCE_TOKEN")
 		}
 		if akeylessDestinationToken == "" {
-			akeylessDestinationToken = os.Getenv("AKEYLESS_DESTINATION_TOKEN")
+			akeylessDestinationToken = getEnvVar("AKEYLESS_DESTINATION_TOKEN")
 		}
 		if sourceGatewayURL == "" {
-			sourceGatewayURL = os.Getenv("SOURCE_GATEWAY_URL")
+			sourceGatewayURL = getEnvVar("SOURCE_GATEWAY_URL")
 		}
 		if destinationGatewayURL == "" {
-			destinationGatewayURL = os.Getenv("DESTINATION_GATEWAY_URL")
+			destinationGatewayURL = getEnvVar("DESTINATION_GATEWAY_URL")
 		}
 		if filterConfigFilePath == "" {
-			filterConfigFilePath = os.Getenv("FILTER_CONFIG_FILE_PATH")
+			filterConfigFilePath = getEnvVar("FILTER_CONFIG_FILE_PATH")
 		}
 		// Do Stuff Here
 	},
+}
+
+func getEnvVar(name string) string {
+	if !strings.HasPrefix(name, "AKEYLESS") {
+		name = "AKEYLESS_" + name
+	}
+	return os.Getenv(name)
 }
 
 func init() {
