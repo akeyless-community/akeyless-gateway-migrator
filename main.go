@@ -11,8 +11,8 @@ import (
 var (
 	akeylessSourceToken      string
 	akeylessDestinationToken string
-	sourceGatewayURL         string
-	destinationGatewayURL    string
+	sourceGatewayConfigURL         string
+	destinationGatewayConfigURL    string
 	filterConfigFilePath     string
 )
 
@@ -32,11 +32,11 @@ var kubernetesCmd = &cobra.Command{
 		if akeylessDestinationToken == "" {
 			akeylessDestinationToken = getEnvVar("AKEYLESS_DESTINATION_TOKEN")
 		}
-		if sourceGatewayURL == "" {
-			sourceGatewayURL = getEnvVar("SOURCE_GATEWAY_URL")
+		if sourceGatewayConfigURL == "" {
+			sourceGatewayConfigURL = getEnvVar("SOURCE_GATEWAY_URL")
 		}
-		if destinationGatewayURL == "" {
-			destinationGatewayURL = getEnvVar("DESTINATION_GATEWAY_URL")
+		if destinationGatewayConfigURL == "" {
+			destinationGatewayConfigURL = getEnvVar("DESTINATION_GATEWAY_URL")
 		}
 		if filterConfigFilePath == "" {
 			filterConfigFilePath = getEnvVar("FILTER_CONFIG_FILE_PATH")
@@ -57,8 +57,8 @@ func init() {
 
 	kubernetesCmd.Flags().StringVar(&akeylessSourceToken, "akeyless-source-token", "", "Akeyless source token")
 	kubernetesCmd.Flags().StringVar(&akeylessDestinationToken, "akeyless-destination-token", "", "Akeyless destination token")
-	kubernetesCmd.Flags().StringVar(&sourceGatewayURL, "source-gateway-url", "", "Source gateway URL")
-	kubernetesCmd.Flags().StringVar(&destinationGatewayURL, "destination-gateway-url", "", "Destination gateway URL")
+	kubernetesCmd.Flags().StringVar(&sourceGatewayConfigURL, "source-gateway-config-url", "", "Source gateway Config URL")
+	kubernetesCmd.Flags().StringVar(&destinationGatewayConfigURL, "destination-gateway-config-url", "", "Destination gateway config URL")
 	kubernetesCmd.Flags().StringVar(&filterConfigFilePath, "filter-config-file-path", "", "Filter config file path")
 }
 
