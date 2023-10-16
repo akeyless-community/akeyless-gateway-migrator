@@ -8,9 +8,9 @@ import (
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "cli",
-	Short: "A brief description of your application",
-	Long:  `A longer description that spans multiple lines and likely contains examples and usage of using your application.`,
+	Use:   "agmigrator",
+	Short: "Akeyless Gateway Configuration Migrator",
+	Long:  `agmigrator is a CLI tool for migrating configuration from one Akeyless Gateway cluster to another.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		// Do Stuff Here
 	},
