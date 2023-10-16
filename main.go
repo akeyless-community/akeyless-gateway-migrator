@@ -59,14 +59,6 @@ func init() {
 	kubernetesCmd.Flags().StringVar(&sourceGatewayURL, "source-gateway-url", "", "Source gateway URL")
 	kubernetesCmd.Flags().StringVar(&destinationGatewayURL, "destination-gateway-url", "", "Destination gateway URL")
 	kubernetesCmd.Flags().StringVar(&filterConfigFilePath, "filter-config-file-path", "", "Filter config file path")
-
-	viper.BindPFlag("akeyless-source-token", kubernetesCmd.Flags().Lookup("akeyless-source-token"))
-	viper.BindPFlag("akeyless-destination-token", kubernetesCmd.Flags().Lookup("akeyless-destination-token"))
-	viper.BindPFlag("source-gateway-url", kubernetesCmd.Flags().Lookup("source-gateway-url"))
-	viper.BindPFlag("destination-gateway-url", kubernetesCmd.Flags().Lookup("destination-gateway-url"))
-	viper.BindPFlag("filter-config-file-path", kubernetesCmd.Flags().Lookup("filter-config-file-path"))
-
-	viper.AutomaticEnv()
 }
 
 func Execute() {
