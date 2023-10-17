@@ -4,6 +4,7 @@ import (
 	"akeyless-gateway-migrator/migrator/internal/factories"
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"net/http"
