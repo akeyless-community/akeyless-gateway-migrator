@@ -108,14 +108,13 @@ func runValidateToken(akeylessToken string, gatewayConfigURL string) error {
 		return err
 	} else {
 		// print line to indicate if token is valid and the token expiration time
-		expirationTime, err := time.Parse(time.RFC3339, *validateToken.Expiration)
+		expirationTime, err := time.Parse("2006-01-02 15:04:05 -0700 MST", *validateToken.Expiration)
 		if err != nil {
 			fmt.Println("Unable to parse expiration time:", err)
 			return err
 		}
-		fmt.Println("Token is valid until:", expirationTime)
-		// print the difference between the current time and the token expiration time
-		fmt.Println("Token expires in:", expirationTime.Sub(time.Now()))
+		// print the difference between the current time and the token expiration time, rounded to the nearest second
+		fmt.Println("Token expires in:", time.Until(expirationTime).Round(time.Second))
 	}
 	return err
 }
