@@ -43,6 +43,7 @@ var (
 	sourceGatewayConfigURL      string
 	destinationGatewayConfigURL string
 	filterConfigFilePath        string
+	debugFlag                   bool
 )
 
 var timeout = 30000 * time.Millisecond
@@ -77,12 +78,14 @@ var kubernetesCmd = &cobra.Command{
 }
 
 func run(akeylessSourceToken string, akeylessDestinationToken string, sourceGatewayConfigURL string, destinationGatewayConfigURL string, filterConfigFilePath string) {
-	// output all the argument values
-	fmt.Println("akeylessSourceToken:", akeylessSourceToken)
-	fmt.Println("sourceGatewayConfigURL:", sourceGatewayConfigURL)
-	fmt.Println("akeylessDestinationToken:", akeylessDestinationToken)
-	fmt.Println("destinationGatewayConfigURL:", destinationGatewayConfigURL)
-	fmt.Println("filterConfigFilePath:", filterConfigFilePath)
+	if debugFlag {
+		// output all the argument values
+		fmt.Println("akeylessSourceToken:", akeylessSourceToken)
+		fmt.Println("sourceGatewayConfigURL:", sourceGatewayConfigURL)
+		fmt.Println("akeylessDestinationToken:", akeylessDestinationToken)
+		fmt.Println("destinationGatewayConfigURL:", destinationGatewayConfigURL)
+		fmt.Println("filterConfigFilePath:", filterConfigFilePath)
+	}
 
 	if akeylessSourceToken != "" {
 		fmt.Println("Validating source token")
@@ -175,6 +178,7 @@ func init() {
 	kubernetesCmd.Flags().StringVar(&sourceGatewayConfigURL, "source-gateway-config-url", "", "Source gateway Config URL")
 	kubernetesCmd.Flags().StringVar(&destinationGatewayConfigURL, "destination-gateway-config-url", "", "Destination gateway config URL")
 	kubernetesCmd.Flags().StringVar(&filterConfigFilePath, "filter-config-file-path", "", "Filter config file path")
+	kubernetesCmd.Flags().BoolVar(&debugFlag, "debug", false, "Enable debug mode")
 }
 
 func Execute() {
