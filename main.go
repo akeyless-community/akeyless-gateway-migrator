@@ -101,6 +101,34 @@ func run(akeylessSourceToken string, akeylessDestinationToken string, sourceGate
 
 	fmt.Println("Found", len(k8sAuthConfigs.K8SAuths), "k8s auth configs")
 
+	if filterConfigFilePath != "" {
+		file, err := os.Open(filterConfigFilePath)
+		if err != nil {
+			fmt.Println("Unable to open filter config file:", filterConfigFilePath, err)
+			return
+		}
+		defer file.Close()
+
+		scanner := bufio.NewScanner(file)
+		filterConfigNames := make(map[string]bool)
+		for scanner.Scan() {
+			filterConfigNames[scanner.Text()] = true
+		}
+
+		if err := scanner.Err(); err != nil {
+			fmt.Println("Error reading filter config file:", filterConfigFilePath, err)
+			return
+		}
+
+		for _, k8sAuthConfig := range k8sAuthConfigs.K8SAuths {
+			if _, ok := filterConfigNames[k8sAuthConfig.Name]; ok {
+				// Migrate this config
+				fmt.Println("Migrating config:", k8sAuthConfig.Name)
+				// TODO: Add code to migrate the config
+			}
+		}
+	}
+
 }
 
 // Check that each of the tokens are valid
