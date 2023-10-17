@@ -5,7 +5,8 @@ before:
     - go generate ./...
 
 builds:
-  - env:
+  - id: agmigrator
+    env:
       - CGO_ENABLED=0
     goos:
       - linux
@@ -23,7 +24,7 @@ builds:
     #     goarch: arm64
 
 archives:
-  - id: foo
+  - id: agmigrator
     name_template: >-
       {{ .ProjectName }}_
       {{- title .Os }}_
@@ -49,7 +50,7 @@ brews:
     goarm: 6
     description: Akeyless Gateway Migrator
     homepage: https://github.com/akeyless-community/akeyless-gateway-migrator
-    tap:
+    repository:
       owner: akeyless-community
       name: homebrew-agmigrator
       token: "{{ .Env.HOMEBREW_TAP_GITHUB_TOKEN }}"
