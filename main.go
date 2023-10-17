@@ -129,13 +129,12 @@ func run(akeylessSourceToken string, akeylessDestinationToken string, sourceGate
 			}
 		}
 	} else {
-		for _, k8sAuthConfig := range k8sAuthConfigs.K8SAuths{                                                                                                        
-			// Migrate this config                                                                                                                                     
-			fmt.Println("Migrating config:", k8sAuthConfig.Name)                                                                                                       
-			// TODO: Add code to migrate the config                                                                                                                    
-		} 
+		for _, k8sAuthConfig := range k8sAuthConfigs.K8SAuths {
+			// Migrate this config
+			fmt.Println("Migrating config:", k8sAuthConfig.Name)
+			// TODO: Add code to migrate the config
+		}
 	}
-
 }
 
 // Check that each of the tokens are valid
