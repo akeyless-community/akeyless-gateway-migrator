@@ -45,7 +45,7 @@ changelog:
       - '^test:'
 
 brews:
-  - name: kav
+  - name: agmigrator
     goarm: 6
     description: Akeyless Gateway Migrator
     homepage: https://github.com/akeyless-community/akeyless-gateway-migrator

@@ -52,7 +52,7 @@ var timeout = 30000 * time.Millisecond
 
 var rootCmd = &cobra.Command{
 	Use:   "agmigrator",
-	Short: "Akeyless Gateway Configuration Migrator",
+	Short: "Akeyless Gateway Migrator",
 	Long:  `agmigrator is a CLI tool for migrating configuration from one Akeyless Gateway cluster to another.`,
 }
 
