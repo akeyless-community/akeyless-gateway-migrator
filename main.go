@@ -2,6 +2,7 @@ package main
 
 import (
 	"akeyless-gateway-migrator/migrator/internal/factories"
+	"akeyless-gateway-migrator/migrator/internal/services"
 	"bufio"
 	"context"
 	"encoding/json"
@@ -199,21 +200,17 @@ func generateEmptyK8sAuthConfigs() KubeAuthConfigs {
 
 func runMigrate(k8sAuthConfig KubeAuthConfig) {
 	akeylessService := factories.BuildAkeylessService(destinationGatewayConfigURL)
-	
+
 	k8sAuthMethod := &services.K8SAuthMethod{
-		AuthMethodAccessID:  k8sAuthConfig.AuthMethodAccessID,
-		AuthMethodPrvKeyPem: k8sAuthConfig.AuthMethodPrvKeyPem,
-		AmTokenExpiration:   k8sAuthConfig.AmTokenExpiration,
+		AccessId:   k8sAuthConfig.AuthMethodAccessID,
+		PrivateKey: k8sAuthConfig.AuthMethodPrvKeyPem,
 	}
 
 	k8sDetails := &services.K8SDetails{
 		K8SHost:             k8sAuthConfig.K8SHost,
 		K8SIssuer:           k8sAuthConfig.K8SIssuer,
-		K8STokenReviewerJwt: k8sAuthConfig.K8STokenReviewerJwt,
-		K8SPubKeysPem:       k8sAuthConfig.K8SPubKeysPem,
-		DisableIssValidation: k8sAuthConfig.DisableIssValidation,
-		UseLocalCaJwt:       k8sAuthConfig.UseLocalCaJwt,
-		ClusterAPIType:      k8sAuthConfig.ClusterAPIType,
+		KubeCACert:          k8sAuthConfig.K8SCaCert,
+		K8SServiceAccountToken: k8sAuthConfig.K8STokenReviewerJwt,
 	}
 
 	_, err := akeylessService.CreateAuthConfigK8S(context.Background(), k8sAuthConfig.Name, k8sAuthMethod, k8sDetails, akeylessDestinationToken)
