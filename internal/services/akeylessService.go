@@ -29,12 +29,12 @@ type K8SDetails struct {
 	K8SServiceAccountToken string
 }
 
-func (service *AkeylessService) ValidateToken(ctx context.Context, token string) error {
+func (service *AkeylessService) ValidateToken(ctx context.Context, token string) (*akeyless.ValidateTokenOutput, error) {
 	validateToken := akeyless.ValidateToken{
 		Token: &token,
 	}
-	_, _, err := service.client.ValidateToken(ctx).Body(validateToken).Execute()
-	return err
+	output, _, err := service.client.ValidateToken(ctx).Body(validateToken).Execute()
+	return &output, err
 }
 
 func (service *AkeylessService) CreateAuthConfigK8S(ctx context.Context, authConfigName string, k8sAuthMethod *K8SAuthMethod, k8sDetails *K8SDetails, token string) (string, error) {

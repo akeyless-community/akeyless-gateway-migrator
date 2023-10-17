@@ -1,6 +1,8 @@
 package main
 
 import (
+	"akeyless-gateway-migrator/migrator/internal/factories"
+	"context"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -81,10 +83,41 @@ func run(akeylessSourceToken string, akeylessDestinationToken string, sourceGate
 	fmt.Println("destinationGatewayConfigURL:", destinationGatewayConfigURL)
 	fmt.Println("filterConfigFilePath:", filterConfigFilePath)
 
+	if akeylessSourceToken != "" {
+		fmt.Println("Validating source token")
+		runValidateToken(akeylessSourceToken, sourceGatewayConfigURL)
+	}
+
+	if akeylessDestinationToken != "" {
+		fmt.Println("Validating destination token")
+		runValidateToken(akeylessDestinationToken, destinationGatewayConfigURL)
+	}
+
 	k8sAuthConfigs := lookupK8sAuthConfigs(akeylessSourceToken, sourceGatewayConfigURL)
 
 	fmt.Println("Found", len(k8sAuthConfigs.K8SAuths), "k8s auth configs")
 
+}
+
+// Check that each of the tokens are valid
+func runValidateToken(akeylessToken string, gatewayConfigURL string) error {
+	akeylessService := factories.BuildAkeylessService(sourceGatewayConfigURL)
+	validateToken, err := akeylessService.ValidateToken(context.Background(), akeylessSourceToken)
+	if err != nil {
+		fmt.Println("Unable to validate token at URL:", gatewayConfigURL, err)
+		return err
+	} else {
+		// print line to indicate if token is valid and the token expiration time
+		expirationTime, err := time.Parse(time.RFC3339, *validateToken.Expiration)
+		if err != nil {
+			fmt.Println("Unable to parse expiration time:", err)
+			return err
+		}
+		fmt.Println("Token is valid until:", expirationTime)
+		// print the difference between the current time and the token expiration time
+		fmt.Println("Token expires in:", expirationTime.Sub(time.Now()))
+	}
+	return err
 }
 
 func lookupK8sAuthConfigs(sourceToken string, sourceGatewayConfigURL string) KubeAuthConfigs {
