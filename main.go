@@ -199,7 +199,24 @@ func generateEmptyK8sAuthConfigs() KubeAuthConfigs {
 
 func runMigrate(k8sAuthConfig KubeAuthConfig) {
 	akeylessService := factories.BuildAkeylessService(destinationGatewayConfigURL)
-	_, err := akeylessService.CreateAuthConfigK8S(context.Background(), akeylessDestinationToken, k8sAuthConfig)
+	
+	k8sAuthMethod := &services.K8SAuthMethod{
+		AuthMethodAccessID:  k8sAuthConfig.AuthMethodAccessID,
+		AuthMethodPrvKeyPem: k8sAuthConfig.AuthMethodPrvKeyPem,
+		AmTokenExpiration:   k8sAuthConfig.AmTokenExpiration,
+	}
+
+	k8sDetails := &services.K8SDetails{
+		K8SHost:             k8sAuthConfig.K8SHost,
+		K8SIssuer:           k8sAuthConfig.K8SIssuer,
+		K8STokenReviewerJwt: k8sAuthConfig.K8STokenReviewerJwt,
+		K8SPubKeysPem:       k8sAuthConfig.K8SPubKeysPem,
+		DisableIssValidation: k8sAuthConfig.DisableIssValidation,
+		UseLocalCaJwt:       k8sAuthConfig.UseLocalCaJwt,
+		ClusterAPIType:      k8sAuthConfig.ClusterAPIType,
+	}
+
+	_, err := akeylessService.CreateAuthConfigK8S(context.Background(), k8sAuthConfig.Name, k8sAuthMethod, k8sDetails, akeylessDestinationToken)
 	if err != nil {
 		fmt.Println("Failed to migrate config:", k8sAuthConfig.Name, err)
 	} else {
