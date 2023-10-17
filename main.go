@@ -125,14 +125,14 @@ func run(akeylessSourceToken string, akeylessDestinationToken string, sourceGate
 			if _, ok := filterConfigNames[k8sAuthConfig.Name]; ok {
 				// Migrate this config
 				fmt.Println("Migrating config:", k8sAuthConfig.Name)
-				// TODO: Add code to migrate the config
+				runMigrate(k8sAuthConfig)
 			}
 		}
 	} else {
 		for _, k8sAuthConfig := range k8sAuthConfigs.K8SAuths {
 			// Migrate this config
 			fmt.Println("Migrating config:", k8sAuthConfig.Name)
-			// TODO: Add code to migrate the config
+			runMigrate(k8sAuthConfig)
 		}
 	}
 }
@@ -195,6 +195,16 @@ func generateEmptyK8sAuthConfigs() KubeAuthConfigs {
 		K8SAuths: []KubeAuthConfig{},
 	}
 	return k8sAuthConfigs
+}
+
+func runMigrate(k8sAuthConfig KubeAuthConfig) {
+	akeylessService := factories.BuildAkeylessService(destinationGatewayConfigURL)
+	_, err := akeylessService.CreateAuthConfigK8S(context.Background(), akeylessDestinationToken, k8sAuthConfig)
+	if err != nil {
+		fmt.Println("Failed to migrate config:", k8sAuthConfig.Name, err)
+	} else {
+		fmt.Println("Successfully migrated config:", k8sAuthConfig.Name)
+	}
 }
 
 func getEnvVar(name string) string {
