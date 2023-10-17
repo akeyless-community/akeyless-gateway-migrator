@@ -108,7 +108,7 @@ func runValidateToken(akeylessToken string, gatewayConfigURL string) error {
 		fmt.Println("Unable to validate token at URL:", gatewayConfigURL, err)
 		return err
 	} else {
-		if !validateToken.IsValid {
+		if validateToken.IsValid != nil && !*validateToken.IsValid {
 			fmt.Println("Token is not valid")
 			return errors.New("Token is not valid")
 		}
