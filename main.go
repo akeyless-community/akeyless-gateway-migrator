@@ -107,6 +107,10 @@ func runValidateToken(akeylessToken string, gatewayConfigURL string) error {
 		fmt.Println("Unable to validate token at URL:", gatewayConfigURL, err)
 		return err
 	} else {
+		if !validateToken.IsValid {
+			fmt.Println("Token is not valid")
+			return errors.New("Token is not valid")
+		}
 		// print line to indicate if token is valid and the token expiration time
 		expirationTime, err := time.Parse("2006-01-02 15:04:05 -0700 MST", *validateToken.Expiration)
 		if err != nil {
