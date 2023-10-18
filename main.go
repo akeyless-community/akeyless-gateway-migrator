@@ -98,6 +98,15 @@ func validateGatewayURL(gatewayURL string) error {
 }
 
 func run(akeylessSourceToken string, akeylessDestinationToken string, sourceGatewayConfigURL string, destinationGatewayConfigURL string, filterConfigFilePath string) {
+	if debugFlag {
+		// output all the argument values
+		fmt.Println("akeylessSourceToken:", akeylessSourceToken)
+		fmt.Println("sourceGatewayConfigURL:", sourceGatewayConfigURL)
+		fmt.Println("akeylessDestinationToken:", akeylessDestinationToken)
+		fmt.Println("destinationGatewayConfigURL:", destinationGatewayConfigURL)
+		fmt.Println("filterConfigFilePath:", filterConfigFilePath)
+	}
+
 	if sourceGatewayConfigURL != "" {
 		err := validateGatewayURL(sourceGatewayConfigURL)
 		if err != nil {
@@ -111,13 +120,15 @@ func run(akeylessSourceToken string, akeylessDestinationToken string, sourceGate
 			return
 		}
 	}
-	if debugFlag {
-		// output all the argument values
-		fmt.Println("akeylessSourceToken:", akeylessSourceToken)
-		fmt.Println("sourceGatewayConfigURL:", sourceGatewayConfigURL)
-		fmt.Println("akeylessDestinationToken:", akeylessDestinationToken)
-		fmt.Println("destinationGatewayConfigURL:", destinationGatewayConfigURL)
-		fmt.Println("filterConfigFilePath:", filterConfigFilePath)
+	
+	if akeylessSourceToken != "" {
+		fmt.Println("Validating source token")
+		runValidateToken(akeylessSourceToken, sourceGatewayConfigURL)
+	}
+
+	if akeylessDestinationToken != "" {
+		fmt.Println("Validating destination token")
+		runValidateToken(akeylessDestinationToken, destinationGatewayConfigURL)
 	}
 
 	k8sAuthConfigs := lookupK8sAuthConfigs(akeylessSourceToken, sourceGatewayConfigURL)
