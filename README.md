@@ -1,4 +1,4 @@
-# akeyless-gateway-migrator
+# Akeyless Gateway Migrator
 
 ## Installation
 
@@ -27,3 +27,25 @@ Alternatively, you can set the following environment variables:
 - `DESTINATION_GATEWAY_URL`: Destination gateway config URL
 - `FILTER_CONFIG_FILE_PATH`: Filter config file path
 - `DEBUG`: Enable debug mode
+
+## Examples
+
+### Running the CLI with flags
+
+```bash
+agmigrator kubernetes \
+  --akeyless-destination-token "t-fe9e3c72d2d50b2e19e7020c322239e3" \
+  --akeyless-source-token "t-fe9e3c72d2d50b2e19e7020c322239e3" \
+  --source-gateway-config-url "https://gw-config.old.akeyless.fans" \
+  --destination-gateway-config-url "https://gw-config.new.akeyless.fans"
+```
+
+### Running the CLI with environment variables for mac/linux
+
+```bash
+export AKEYLESS_SOURCE_TOKEN="t-fe9e3c72d2d50b2e19e7020c322239e3"
+export AKEYLESS_DESTINATION_TOKEN="t-fe9e3c72d2d50b2e19e7020c322239e3"
+export SOURCE_GATEWAY_CONFIG_URL="https://gw-config.old.akeyless.fans"
+export DESTINATION_GATEWAY_CONFIG_URL="https://gw-config.new.akeyless.fans"
+agmigrator kubernetes
+```
