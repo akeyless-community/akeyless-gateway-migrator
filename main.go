@@ -79,7 +79,38 @@ var kubernetesCmd = &cobra.Command{
 	},
 }
 
+func validateGatewayURL(gatewayURL string) error {
+	url := gatewayURL + "/health"
+
+	httpRequestClient := httpclient.NewClient(httpclient.WithHTTPTimeout(timeout))
+
+	// Create an http.Request instance
+	req, _ := http.NewRequest(http.MethodGet, url, nil)
+
+	// Call the `Do` method, which has a similar interface to the `http.Do` method
+	_, err := httpRequestClient.Do(req)
+	if err != nil {
+		fmt.Println("Unable to connect to gateway URL:", gatewayURL, err)
+		return err
+	}
+
+	return nil
+}
+
 func run(akeylessSourceToken string, akeylessDestinationToken string, sourceGatewayConfigURL string, destinationGatewayConfigURL string, filterConfigFilePath string) {
+	if sourceGatewayConfigURL != "" {
+		err := validateGatewayURL(sourceGatewayConfigURL)
+		if err != nil {
+			return
+		}
+	}
+
+	if destinationGatewayConfigURL != "" {
+		err := validateGatewayURL(destinationGatewayConfigURL)
+		if err != nil {
+			return
+		}
+	}
 	if debugFlag {
 		// output all the argument values
 		fmt.Println("akeylessSourceToken:", akeylessSourceToken)
@@ -89,17 +120,6 @@ func run(akeylessSourceToken string, akeylessDestinationToken string, sourceGate
 		fmt.Println("filterConfigFilePath:", filterConfigFilePath)
 	}
 
-	if akeylessSourceToken != "" {
-		fmt.Println("Validating source token")
-		runValidateToken(akeylessSourceToken, sourceGatewayConfigURL)
-	}
-
-	if akeylessDestinationToken != "" {
-		fmt.Println("Validating destination token")
-		runValidateToken(akeylessDestinationToken, destinationGatewayConfigURL)
-	}
-
-	k8sAuthConfigs := lookupK8sAuthConfigs(akeylessSourceToken, sourceGatewayConfigURL)
 
 	fmt.Println("Found", len(k8sAuthConfigs.K8SAuths), "k8s auth configs")
 
