@@ -6,6 +6,7 @@ before:
 
 builds:
   - id: agmigrator
+    binary: agmigrator  # This line sets the binary name
     env:
       - CGO_ENABLED=0
     goos:
