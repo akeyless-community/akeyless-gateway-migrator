@@ -1,5 +1,7 @@
 # Akeyless Gateway Migrator
 
+Akeyless Gateway Migrator is a CLI tool that helps you migrate configuration from one Akeyless Gateway cluster to another. 
+
 ## Installation
 
 You can install `agmigrator` using Homebrew with the following command:
@@ -12,21 +14,21 @@ brew install akeyless-community/agmigrator/agmigrator
 
 You can use the following command line flags:
 
-- `--akeyless-source-token`: Akeyless source token
-- `--akeyless-destination-token`: Akeyless destination token
-- `--source-gateway-config-url`: Source gateway Config URL
-- `--destination-gateway-config-url`: Destination gateway config URL
-- `--filter-config-file-path`: Filter config file path
-- `--debug`: Enable debug mode
+- `--akeyless-source-token` (required): The token for the source Akeyless Gateway.
+- `--akeyless-destination-token` (required): The token for the destination Akeyless Gateway.
+- `--source-gateway-config-url` (required): The configuration URL for the source Akeyless Gateway.
+- `--destination-gateway-config-url` (required): The configuration URL for the destination Akeyless Gateway.
+- `--filter-config-file-path` (optional): The path to a file containing the names of the configurations to be migrated. If not provided, all configurations will be migrated.
+- `--debug` (optional): Enable debug mode to output all the argument values.
 
 Alternatively, you can set the following environment variables:
 
-- `AKEYLESS_SOURCE_TOKEN`: Akeyless source token
-- `AKEYLESS_DESTINATION_TOKEN`: Akeyless destination token
-- `SOURCE_GATEWAY_URL`: Source gateway Config URL
-- `DESTINATION_GATEWAY_URL`: Destination gateway config URL
-- `FILTER_CONFIG_FILE_PATH`: Filter config file path
-- `DEBUG`: Enable debug mode
+- `AKEYLESS_SOURCE_TOKEN` (required): Equivalent to `--akeyless-source-token`.
+- `AKEYLESS_DESTINATION_TOKEN` (required): Equivalent to `--akeyless-destination-token`.
+- `SOURCE_GATEWAY_URL` (required): Equivalent to `--source-gateway-config-url`.
+- `DESTINATION_GATEWAY_URL` (required): Equivalent to `--destination-gateway-config-url`.
+- `FILTER_CONFIG_FILE_PATH` (optional): Equivalent to `--filter-config-file-path`.
+- `DEBUG` (optional): Equivalent to `--debug`.
 
 ## Examples
 
