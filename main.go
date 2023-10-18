@@ -120,6 +120,7 @@ func run(akeylessSourceToken string, akeylessDestinationToken string, sourceGate
 		fmt.Println("filterConfigFilePath:", filterConfigFilePath)
 	}
 
+	k8sAuthConfigs := lookupK8sAuthConfigs(akeylessSourceToken, sourceGatewayConfigURL)
 
 	fmt.Println("Found", len(k8sAuthConfigs.K8SAuths), "k8s auth configs")
 
@@ -227,9 +228,9 @@ func runMigrate(k8sAuthConfig KubeAuthConfig) {
 	}
 
 	k8sDetails := &services.K8SDetails{
-		K8SHost:             k8sAuthConfig.K8SHost,
-		K8SIssuer:           k8sAuthConfig.K8SIssuer,
-		KubeCACert:          k8sAuthConfig.K8SCaCert,
+		K8SHost:                k8sAuthConfig.K8SHost,
+		K8SIssuer:              k8sAuthConfig.K8SIssuer,
+		KubeCACert:             k8sAuthConfig.K8SCaCert,
 		K8SServiceAccountToken: k8sAuthConfig.K8STokenReviewerJwt,
 	}
 
