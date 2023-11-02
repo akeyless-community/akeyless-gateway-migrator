@@ -18,7 +18,7 @@ You can use the following command line flags:
 - `--akeyless-destination-token` (required): The token for the destination Akeyless Gateway.
 - `--source-gateway-config-url` (required): The configuration URL for the source Akeyless Gateway.
 - `--destination-gateway-config-url` (required): The configuration URL for the destination Akeyless Gateway.
-- `--filter-config-file-path` (optional): The path to a file containing the names of the configurations to be migrated. If not provided, all configurations will be migrated.
+- `--filter-config-file-path` (optional): The path to a file containing the name(s) of the k8s auth configurations to be migrated. [Exmaple found here](text-file-filter-example.txt) If not provided, all configurations will be migrated.
 - `--debug` (optional): Enable debug mode to output all the argument values.
 
 Alternatively, you can set the following environment variables:
