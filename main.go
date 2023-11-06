@@ -82,7 +82,13 @@ var kubernetesCmd = &cobra.Command{
 func validateGatewayURL(gatewayURL string) error {
 	url := gatewayURL + "/health"
 
-	httpRequestClient := httpclient.NewClient(httpclient.WithHTTPTimeout(timeout))
+	// Create a custom HTTP client with InsecureSkipVerify set to true
+	httpRequestClient := &http.Client{
+		Transport: &http.Transport{
+			TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+		},
+		Timeout: timeout,
+	}
 
 	// Create an http.Request instance
 	req, _ := http.NewRequest(http.MethodGet, url, nil)
