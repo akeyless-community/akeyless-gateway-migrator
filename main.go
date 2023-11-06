@@ -5,6 +5,7 @@ import (
 	"akeyless-gateway-migrator/migrator/internal/services"
 	"bufio"
 	"context"
+	"crypto/tls"
 	"encoding/json"
 	"errors"
 	"fmt"
