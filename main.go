@@ -49,7 +49,7 @@ var (
 	debugFlag                   bool
 )
 
-var timeout = 30000 * time.Millisecond
+var timeout = 5 * time.Minute
 
 var rootCmd = &cobra.Command{
 	Use:   "agmigrator",
@@ -127,7 +127,7 @@ func run(akeylessSourceToken string, akeylessDestinationToken string, sourceGate
 			return
 		}
 	}
-	
+
 	if akeylessSourceToken != "" {
 		fmt.Println("Validating source token")
 		runValidateToken(akeylessSourceToken, sourceGatewayConfigURL)
